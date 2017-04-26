@@ -97,17 +97,18 @@
     // const subscribe = example.subscribe(val => console.log(val));
 
 
-    const cities = ['Paris', 'New York', 'Tokyo', 'Istanbul', 'Londres', 'Mexico']
+    const cities = ['Paris', 'New York', 'Tokyo', 'Istanbul', 'Londres', 'Mexico', 'Rome', 'Pekin', 'Moscou'];
     const subject = new Rx.Subject();
-    $('input').on('keyup', function (e) {
-      subject.next(e.target.value);
-    })
+    $('input').on('keyup', e => subject.next(e.target.value));
     const search = term => Rx.Observable.of(cities.filter(city => city.toLowerCase().indexOf(term.toLowerCase()) !== -1));
-    const obs = subject
+    const observable = subject
       .debounceTime(300)
       .distinctUntilChanged()
       .switchMap(term => term ? search(term) : Rx.Observable.of([]));
-    obs.subscribe(data => console.log(data));
+    observable.subscribe(cities => {
+      console.clear();
+      console.log(cities);
+    });
   </script>
 </body>
 
