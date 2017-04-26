@@ -11,11 +11,17 @@
     body {
       background-color: #202020;
     }
+    
+    li {
+      color: white;
+    }
   </style>
 
 </head>
 
 <body>
+
+  <input type="text" placeholder="City">
   <script>
     // (async () => {
     //   const a = async () => new Promise(resolve => setTimeout(() => resolve("#1"), 1500));
@@ -53,6 +59,55 @@
     // setTimeout(() => {
     //   a.next('Hello');
     // }, 2000);
+
+    // const observer = ({
+    //   next: e => console.log('next ' + e),
+    //   error: err => console.error(err),
+    //   complete: () => console.log('complete')
+    // });
+
+    // const observer = ({
+    //   next: e => console.log('next ' + e),
+    //   error: err => console.error(err),
+    //   complete: () => console.log('complete')
+    // });
+
+    // const observable = new Rx.Observable(subscriber => {
+    //   subscriber.next('sub1');
+    // });
+    // const subject = new Rx.Subject();
+
+    // const sub1 = observable.subscribe(observer);
+    // const sub2 = subject.subscribe(observer);
+
+    // subject.next('sub2');
+
+    // setTimeout(() => {
+    //   subject.next('hello');
+    // }, 5000);
+
+    // const a = [2, 0, 3]
+    // const b = [1, 2, 3]
+    // const c = [0, 2, 3]
+    // console.log(a == b, a === b, a > c, a < c);
+
+
+    // const source = Rx.Observable.timer(0, 2500);
+    // const example = source.switchMap(() => Rx.Observable.interval(500));
+    // const subscribe = example.subscribe(val => console.log(val));
+
+
+    const cities = ['Paris', 'New York', 'Tokyo', 'Istanbul', 'Londres', 'Mexico']
+    const subject = new Rx.Subject();
+    $('input').on('keyup', function (e) {
+      subject.next(e.target.value);
+    })
+    const search = term => Rx.Observable.of(cities.filter(city => city.toLowerCase().indexOf(term.toLowerCase()) !== -1));
+    const obs = subject
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .switchMap(term => term ? search(term) : Rx.Observable.of([]));
+    obs.subscribe(data => console.log(data));
   </script>
 </body>
 
