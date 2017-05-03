@@ -21,11 +21,11 @@
 
 <body>
 
-  <input type="text" placeholder="City">
+  <!--<input type="text" placeholder="City">-->
   <script>
+    // const a = async () => new Promise(resolve => setTimeout(() => resolve("#1"), 1500));
+    // const b = async () => new Promise(resolve => setTimeout(() => resolve("#2"), 1000));
     // (async () => {
-    //   const a = async () => new Promise(resolve => setTimeout(() => resolve("#1"), 1500));
-    //   const b = async () => new Promise(resolve => setTimeout(() => resolve("#2"), 1000));
     //   const c = async () => {
     //     await a().then(data => console.log(data));
     //     await b().then(data => console.log(data));
@@ -66,11 +66,11 @@
     //   complete: () => console.log('complete')
     // });
 
-    // const observer = ({
-    //   next: e => console.log('next ' + e),
-    //   error: err => console.error(err),
-    //   complete: () => console.log('complete')
-    // });
+    const observer = ({
+      next: e => console.log('next ' + e),
+      error: err => console.error(err),
+      complete: () => console.log('complete')
+    });
 
     // const observable = new Rx.Observable(subscriber => {
     //   subscriber.next('sub1');
@@ -97,18 +97,35 @@
     // const subscribe = example.subscribe(val => console.log(val));
 
 
-    const cities = ['Paris', 'New York', 'Tokyo', 'Istanbul', 'Londres', 'Mexico', 'Rome', 'Pekin', 'Moscou'];
-    const subject = new Rx.Subject();
-    $('input').on('keyup', e => subject.next(e.target.value));
-    const search = term => Rx.Observable.of(cities.filter(city => city.toLowerCase().indexOf(term.toLowerCase()) !== -1));
-    const observable = subject
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .switchMap(term => term ? search(term) : Rx.Observable.of([]));
-    observable.subscribe(cities => {
-      console.clear();
-      console.log(cities);
-    });
+    // const cities = ['Paris', 'New York', 'Tokyo', 'Istanbul', 'Londres', 'Mexico', 'Rome', 'Pekin', 'Moscou'];
+    // const subject = new Rx.Subject();
+    // $('input').on('keyup', e => subject.next(e.target.value));
+    // const search = term => Rx.Observable.of(cities.filter(city => city.toLowerCase().indexOf(term.toLowerCase()) !== -1));
+    // const observable = subject
+    //   .debounceTime(300)
+    //   .distinctUntilChanged()
+    //   .switchMap(term => term ? search(term) : Rx.Observable.of([]))
+    //   .subscribe(cities => {
+    //     console.clear();
+    //     console.log(cities);
+    //   });
+
+    // const interval$ = Rx.Observable.interval(500);
+    // const subject$ = new Rx.Subject();
+    // const numbers$ = Rx.Observable.create(observer => {
+    //   const subscription = interval$.subscribe(n => observer.next(n));
+    //   return () => {
+    //     if (subscription)
+    //       subscription.unsubscribe();
+    //   }
+    // });
+    // numbers$
+    //   .takeWhile(n => n < 3)
+    //   .subscribe(observer);
+    // interval$.subscribe(n => subject$.next(n));
+    // subject$
+    //   .takeWhile(n => n < 3)
+    //   .subscribe(observer);
   </script>
 </body>
 
